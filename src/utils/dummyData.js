@@ -1,18 +1,20 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
-  // users: [
-  //   {
-  //     name: 'John',
-  //     email: 'admin@example.com',
-  //     password: bcrypt.hashSync('123456'),
-  //     isAdmin: true,
-  //   },
-  //   {
-  //     name: 'Jane',
-  //     email: 'user@example.com',
-  //     password: bcrypt.hashSync('123456'),
-  //     isAdmin: false,
-  //   },
-  // ],
+  users: [
+    {
+      name: 'John',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: true,
+    },
+    {
+      name: 'Jane',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
       name: 'Free Shirt',
@@ -93,7 +95,7 @@ const data = {
     },
     {
       name: 'Shirt style',
-      slug: 'classic-pants',
+      slug: 'classic-shirt',
       category: 'Pants',
       image:
         'https://images.ctfassets.net/5gvckmvm9289/3BlDoZxSSjqAvv1jBJP7TH/65f9a95484117730ace42abf64e89572/Noissue-x-Creatsy-Tote-Bag-Mockup-Bundle-_4_-2.png',

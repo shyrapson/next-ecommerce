@@ -1,30 +1,39 @@
 import Layout from '@/components/Layout';
-import data from '@/utils/dummyData';
+import db from '@/utils/db';
+// import data from '@/utils/dummyData';
 import { Store, StoreProvider } from '@/utils/Store';
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
+import { toast } from 'react-toastify';
+import Product from '../../../models/Product';
 
-export default function ProductScreen() {
+export default function ProductScreen(props) {
+  const { product } = props;
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
-  const { query } = useRouter();
-
-  const { slug } = query;
-  const product = data?.products.find((x) => x.slug === slug);
+  // const { query } = useRouter();
+  // console.log(query, 'werereeeeeeeeee');
+  // const { slug } = query;
+  // const product = data?.products.find((x) => x.slug === slug);
 
   if (!product) {
-    return <div>Product Not Found</div>;
+    return <Layout title="Not Found">Product Not Found</Layout>;
   }
-  const addToCart = () => {
+  const addToCart = async () => {
     const itemExist = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = itemExist ? itemExist.quantity + 1 : 1;
-    if (product.countInStock < quantity) {
-      alert('Sorry. product out of stock');
+    //sending to db
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    console.log('data', data);
+    if (data.countInStock < quantity) {
+      toast.error('Sorry. product out of stock');
       return;
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    toast.success('Product added successfully');
     router.push('/cart');
   };
 
@@ -73,4 +82,18 @@ export default function ProductScreen() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  db.disconnect();
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
 }

@@ -14,7 +14,7 @@ export default NextAuth({
     async jwt({ token, user }) {
       if (user?._id) token._id = user._id;
       if (user?.isAdmin) token.isAdmin = user.isAdmin;
-      //the user._id is coming fro db and the token is in the next auth library life cycle
+      //the user._id is coming from db and the token is in the next auth library life cycle
       return token;
     },
     async session({ session, token }) {

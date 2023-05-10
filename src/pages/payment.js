@@ -43,23 +43,21 @@ export default function paymentScreen() {
 
       <form className="mx-auto max-w-screen-md" onSubmit={submitHandler}>
         <h1 className="mb-4 text-xl">Payment Method</h1>
-        {['PayPal', 'Flutterwave', 'Stripe', 'CashOnDelivery'].map(
-          (payment) => (
-            <div key={payment} className="mb-4">
-              <input
-                name="PaymentMethod"
-                className="p-2 outline-none focus:ring-0"
-                id={payment}
-                type="radio"
-                checked={selectedPaymentMethod === payment}
-                onChange={() => setSelectedPaymentMethod(payment)}
-              />
-              <label className="p-2" htmlFor={payment}>
-                {payment}
-              </label>
-            </div>
-          )
-        )}
+        {['Flutterwave', 'CashOnDelivery'].map((payment) => (
+          <div key={payment} className="mb-4">
+            <input
+              name="PaymentMethod"
+              className="p-2 outline-none focus:ring-0"
+              id={payment}
+              type="radio"
+              checked={selectedPaymentMethod === payment}
+              onChange={() => setSelectedPaymentMethod(payment)}
+            />
+            <label className="p-2" htmlFor={payment}>
+              {payment}
+            </label>
+          </div>
+        ))}
         <div className="mb-5">
           <button
             onClick={() => router.push('/shipping')}

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 
 export default function LoginScreen() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const router = useRouter();
   const { redirect } = router.query;
